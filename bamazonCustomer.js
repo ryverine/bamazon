@@ -5,11 +5,14 @@ var mysql = require("mysql");
 
 var inquirer = require("inquirer");
 
+//var table = require("table");
+const {table} = require('table');
+
 var keys = require("./keys.js");
 
 var pass = keys.password.bamazon_pass;
 
-console.log("password = " + pass);
+var divider = "------------------------------";
 
 var connection = mysql.createConnection(
 {
@@ -24,127 +27,161 @@ var connection = mysql.createConnection(
 connection.connect(function(err) 
 {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
-    startApp();
+ 
+    displayProducts();
 });
 
 
-function startApp()
+function bidOnAnItem(){}
+
+
+function displayProducts() 
 {
-    inquirer.prompt([
-    {
-        type: "list",
-        message: "What action:",
-        choices: [  "PRODUCT LIST",
-                    "BID ON AN ITEM"],
-        name: "action"
-    }
-    ]).then(function(inquirerResponse) 
-    {
-        var action = inquirerResponse.action.toUpperCase();
-        
-        switch(action) 
-        {
-            case "PRODUCT LIST":
-            printAllItems();
-            break;
-            case "BID ON AN ITEM":
-            bidOnAnItem();
-            break;
-            default:
-            console.log("Cannot process " + inquirerResponse.action + '!');
-        }
-    });
-}
+    var selectedProduct = {
+        item_id: 0,
+        product_name: "",
+        department_name: "",
+        price: 0.0,
+        stock_quantity: 0
+    };
 
-function printData(data)
-{
-    console.log("------------------------------"); 
-    console.log("ID: " + data.item_id); 
-    console.log("ITEM: " + data.product_name);
-    console.log("DEPARTMENT: " + data.department_name);
-    console.log("PRICE: " + data.price);
-    console.log("QUANTITY: " + data.stock_quantity);
-}
+    var productTableData = []; 
 
+    var productTableHeader = [ "ITEM ID",
+                        "DEPARTMENT",
+                        "ITEM",
+                        "PRICE",
+                        "IN STOCK"];
 
-function printAllItems()
-{
-    console.log("Selecting all rows from products table...\n");
+    productTableData.push(productTableHeader);
+    var productTableOutput;
 
-    connection.query("SELECT * FROM products", function(err, res) 
+    connection.query("SELECT * FROM products ORDER BY item_id", function(err, results) 
     {
         if (err) throw err;
-       
-        for(var i = 0; i < res.length; i++)
+
+        console.log(divider);
+        console.log("WELCOME TO BAMAZON!");
+        console.log(divider);
+
+        // https://www.npmjs.com/package/table
+
+        for (var i = 0; i < results.length; i++) 
         {
-            printData(res[i]);
+            var record = [  results[i].item_id,
+                            results[i].department_name,
+                            results[i].product_name,
+                            "$" + results[i].price,
+                            results[i].stock_quantity];
+
+            productTableData.push(record);
         }
 
-        connection.end();
-    });
-}
+        productTableOutput = table(productTableData);
+        console.log(productTableOutput);
+        console.log(divider);
 
-
-function bidOnAnItem()
-{
-
-    /*
-    console.log("bidOnAnItem()");
-
-    var items = [];
-
-    connection.query("SELECT * FROM items", function(err, res) 
-    {
-        if (err) throw err;
-        // Log all results of the SELECT statement
-        for(var i = 0; i < res.length; i++)
+        inquirer.prompt([
         {
-            var obj = {
-                id: res[i].id,
-                item: res[i].item,
-                startingbid: res[i].startingbid,
-                highestbid: res[i].highestbid
-            };
-
-            items.push(obj);
-        }
-        console.log("Items (in): " + items.length);
-
-        connection.end();
-    });
-
-    
-    console.log("Items (out): " + items.length);
-    for (var i = 0; i < items.length; i++)
-    {
-        console.log("items["+i+"].item: " + items[i].item);
-    }
-
-    /*
-    inquirer.prompt([
+            name: "whatItem",
+            type: "input",
+            message: "What item would you like to buy? (enter item ID): "
+        },
         {
-            type: "list",
-            message: "What action:",
-            choices: [  "POST AN ITEM",
-                        "BID ON AN ITEM"],
-            name: "action"
-        }
-        ]).then(function(inquirerResponse) 
+            name: "howMany",
+            type: "input",
+            message: "How many whould you like to purchase?"
+        }]).then(function(answer)
         {
-            var action = inquirerResponse.action.toUpperCase();
-            
-            switch(action) 
+            console.log(divider);
+            if(Number.isNaN(answer.whatItem) || Number.isNaN(answer.howMany))
             {
-                case "POST AN ITEM":
-                postAnItem();
-                break;
-                case "BID ON AN ITEM":
-                bidOnAnItem();
-                break;
-                default:
-                console.log("Cannot process " + inquirerResponse.action + '!');
+                console.log("We're sorry!");
+                console.log("Your input is not recognized.");
+                console.log("Please use numeric values for both questions.");
+                console.log(divider);
+                displayProducts();
             }
-        });*/
-}
+            else
+            {
+                var answerWhatItem = Number.parseInt(answer.whatItem);
+                var answerHowMany = Number.parseInt(answer.howMany);
 
+                for (var j = 0; j < results.length; j++) 
+                {
+                    if (results[j].item_id === answerWhatItem)
+                    {
+                        selectedProduct = results[j];
+                    }
+                }
+
+                if (selectedProduct.item_id === 0)
+                {
+                    console.log("We're sorry!");
+                    console.log("We do not carry the item you selected.");
+                    console.log(divider);
+                    displayProducts();
+                }
+                else
+                {
+                    if (answerHowMany < 1)
+                    {
+                        console.log("Quantity must be greater than zero!");
+                        console.log(divider);
+                        displayProducts();
+                    }
+                    else if((selectedProduct.stock_quantity - answerHowMany) < 0)
+                    {
+                        console.log("We're sorry!");
+                        console.log("We do have enough in stock to satisfy your order.");
+                        displayProducts();
+                    }
+                    else
+                    {
+                        var orderTotal = selectedProduct.price * answerHowMany;
+
+                        orderTotal.toFixed(2); 
+
+                        console.log("YOUR ORDER");
+
+                        var orderTableData = []; 
+
+                        var orderTableHeader = ["ID",
+                                                "ITEM",
+                                                "QTY",
+                                                "PRICE",
+                                                "TOTAL"];
+
+                        orderTableData.push(orderTableHeader);
+
+                        var order = [   selectedProduct.item_id,
+                                        selectedProduct.product_name,
+                                        answerHowMany,
+                                        "$" + selectedProduct.price,
+                                        "$" + orderTotal];
+                        
+                        orderTableData.push(order);
+
+                        var orderTableOutput = table(orderTableData);
+
+                        console.log(orderTableOutput);
+                        console.log(divider);
+
+                        var qtyAfterPurchase = selectedProduct.stock_quantity - answerHowMany
+                        // need to update item with new quantity
+                        updateProductQty(selectedProduct.item_id, qtyAfterPurchase);
+
+                        displayProducts();
+                    }
+                }
+            }
+        });
+    });
+  }
+
+
+  updateProductQty(id, amount);
+  {
+
+  }
+  

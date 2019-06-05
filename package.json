@@ -1,0 +1,27 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "A Node.js application that replicates an online market place.",
+  "main": "bamazonCustomer.js",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "inquirer": "^6.3.1",
+    "mysql": "^2.17.1",
+    "table": "^5.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryverine/bamazon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryverine/bamazon/issues"
+  },
+  "homepage": "https://github.com/ryverine/bamazon#readme"
+}

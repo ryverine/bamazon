@@ -5,7 +5,6 @@ var mysql = require("mysql");
 
 var inquirer = require("inquirer");
 
-//var table = require("table");
 const {table} = require('table');
 
 var keys = require("./keys.js");
@@ -30,9 +29,6 @@ connection.connect(function(err)
  
     displayProducts();
 });
-
-
-function bidOnAnItem(){}
 
 
 function displayProducts() 
@@ -63,8 +59,6 @@ function displayProducts()
         console.log(divider);
         console.log("WELCOME TO BAMAZON!");
         console.log(divider);
-
-        // https://www.npmjs.com/package/table
 
         for (var i = 0; i < results.length; i++) 
         {
@@ -168,20 +162,32 @@ function displayProducts()
                         console.log(divider);
 
                         var qtyAfterPurchase = selectedProduct.stock_quantity - answerHowMany
-                        // need to update item with new quantity
                         updateProductQty(selectedProduct.item_id, qtyAfterPurchase);
-
-                        displayProducts();
                     }
                 }
             }
         });
     });
-  }
+}
 
 
-  updateProductQty(id, amount);
-  {
+function updateProductQty(id, qty)
+{
+    connection.query("UPDATE products SET ? WHERE ?",
+    [
+        {
+            stock_quantity: qty
+        },
+        {
+            item_id: id
+        }
+    ],
+    function(err, res) 
+    {
+        console.log(divider);
+        console.log("Product # " + id + " quantity updated!");
+        console.log(divider);
+        displayProducts();
+    });
+}
 
-  }
-  

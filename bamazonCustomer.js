@@ -134,7 +134,7 @@ function displayProducts()
                     {
                         var orderTotal = selectedProduct.price * answerHowMany;
 
-                        orderTotal.toFixed(2); 
+                        orderTotal = orderTotal.toFixed(2); 
 
                         console.log("YOUR ORDER");
 

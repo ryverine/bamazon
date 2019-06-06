@@ -81,6 +81,8 @@ Once you are under the `bamazon` directory, enter `npm i` into your command line
 
 If you have the `package.JSON` file, the various packages will be installed. 
 
+![npm install](/documentation/img01.png)
+
 After the NPM installation you can then run Bamazon. 
 
 
@@ -90,15 +92,16 @@ Now that you have your password added to the `.env` file and the NPM packages in
 
 Simply type `node bamazonCustomer` into your command line and press the `enter` key to begin.
 
+![run bamazon](/documentation/img02.png)
+
 
 ## Bamazon User Manual
 
 Bamazon replicates an online market place. You can view data that is stored in an external database and interact with that database with command line arguments.
 
-Upon running `bamazonCustomer.js` you will be presented with a table that displays 
+Upon running `bamazonCustomer.js` you will be presented with a table that displays the content of the `products` table, and a prompt to selected the item you would like to purchase.
 
-IMG:
-![BandsInTown Search](/documentation/bitSearch.gif)
+![bamazon customer](/documentation/img03.png)
 
 
 ### Placing an Order
@@ -109,12 +112,13 @@ To make a selection, enter the numeric ID of the item and press the `enter` key.
 
 You will then be asked to enter the amount you would like to purchase.
 
+![bamazon customer](/documentation/img04.png)
+
 Bamazon will process your order and return an invoice that shows the details of your order.
 
-IMG:
-![BandsInTown Search](/documentation/bitSearch.gif)
+The quantity of the item will be updated to reflect the number purchased by the customer, and the customer will be returned to the item select prompt.
 
-
+![bamazon order](/documentation/img05.png)
 
 
 

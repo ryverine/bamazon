@@ -26,16 +26,12 @@ Click on the green "Clone or Download" button above.
 
 You may clone my repo, but you can also select the "download zip" option and unzip the downloaded file in any directory you please.
 
-Make sure you have the following files:
-* `keys.js`
-* `package.JSON`
-
 
 ### Create the Bamazon Database
 
 For this application you will need to have MySQL and you will need to build the Bamazon database.
 
-To create the database you can execute the code in the 'schema.sql' file.
+To create the database you can execute the code in the `schema.sql` file.
 
 I have ordered the steps you need to take, so just follow a long to the commented directions.
 
@@ -44,7 +40,11 @@ I have ordered the steps you need to take, so just follow a long to the commente
 
 Your MySQL password is required for the application to connect to the Bamazon database.
 
-My application does not use the password as a hard coded value, you will need to create 
+My application does not use the password as a hard coded value, you will need to use your own MySQL password.
+
+Make sure you have the following files:
+* `keys.js`
+* `package.JSON`
 
 In the `bamazon` directory you need to create a new file named `.env`.
 

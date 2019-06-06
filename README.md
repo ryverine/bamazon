@@ -1,5 +1,5 @@
 
-#Bamazon
+# Bamazon
 
 A Node.js application that replicates an online market place.
 
@@ -8,12 +8,12 @@ Product data is contained in an external MySQL database.
 A customer can load this application to view the product data and place an order for a specific item.
 
 
-##Installation Instructions
+## Installation Instructions
 
 Before you can run Bamazon there are few things you need to have in place.
 
 
-###Node JS
+### Node JS
 
 You must have Node JS and a terminal/command line application installed on your machine.
 

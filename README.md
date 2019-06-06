@@ -54,8 +54,8 @@ You will be prompted to confirm the name change and after selecting `yes` you sh
 
 The contents of the `.env` file should be as follows. 
 
-	`# MySQL Password
-	db_password="your_mysql_password"`
+	# MySQL Password
+	db_password="your_mysql_password"
 
 The content in quotes should be your specific MySQL password. 
 

@@ -42,9 +42,7 @@ Your MySQL password is required for the application to connect to the Bamazon da
 
 My application does not use the password as a hard coded value, you will need to use your own MySQL password.
 
-Make sure you have the following files:
-* `keys.js`
-* `package.JSON`
+Make sure you have the `keys.js` file.
 
 In the `bamazon` directory you need to create a new file named `.env`.
 
@@ -72,6 +70,8 @@ The primary packages used are:
 * [MySQL] (https://www.npmjs.com/package/mysql)
 * [Inquirer] (https://www.npmjs.com/package/inquirer)
 * [Table] (https://www.npmjs.com/package/table)
+
+Make sure you have the `package.JSON` file.
 
 In your command line application navigate to the `bamazon` directory. 
 
@@ -120,7 +120,7 @@ The quantity of the item will be updated to reflect the number purchased by the 
 
 ![bamazon order](/documentation/img05.png)
 
-
+The prompts expect a neumeric value, and for the amount you must provide a value that is not greater than the current in stock quantity.
 
 
 

@@ -52,14 +52,14 @@ On a Windows machine you can make this file by creating a new text file and nami
 
 You will be prompted to confirm the name change and after selecting `yes` you should see that the file is named `.env`.
 
-The contents of the `.env` file should be as follows. 
+The contents of the `.env` file should be as follows:
 
 	# MySQL Password
 	db_password="your_mysql_password"
 
 The content in quotes should be your specific MySQL password. 
 
-Do not remove the quote characters! Your values should go between the quotes.
+Do not remove the quote characters, your password should go between the quotes.
 
 
 ### NPM Install 
